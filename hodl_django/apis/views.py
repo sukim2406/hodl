@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from stock import models
 from .serializers import StockSerializer
+
 from rest_framework import generics
 
 class ListStock(generics.ListCreateAPIView):

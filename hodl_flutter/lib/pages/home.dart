@@ -17,18 +17,45 @@ class HomePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: stockProvider.stocks.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: Text(
-              stockProvider.stocks[index].ticker,
-            ),
-            title: Text(
-              stockProvider.stocks[index].title,
-            ),
-            subtitle: Text(
-              stockProvider.stocks[index].amount.toString(),
-            ),
-            trailing: Text(
-              stockProvider.stocks[index].avgPrice,
+          return GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Delete this stock ?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            stockProvider
+                                .deleteStock(stockProvider.stocks[index]);
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            child: ListTile(
+              leading: Text(
+                stockProvider.stocks[index].ticker,
+              ),
+              title: Text(
+                stockProvider.stocks[index].title,
+              ),
+              subtitle: Text(
+                stockProvider.stocks[index].amount.toString(),
+              ),
+              trailing: Text(
+                stockProvider.stocks[index].avgPrice,
+              ),
             ),
           );
         },

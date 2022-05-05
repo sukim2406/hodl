@@ -9,5 +9,6 @@ class StockSerializer(serializers.ModelSerializer):
             'ticker',
             'amount',
             'avgPrice',
+            'curPrice',
         )
         model = models.Stock

@@ -15,7 +15,7 @@ class StockProvider with ChangeNotifier {
   }
 
   fetchStocks() async {
-    final url = Uri.http('127.0.0.1:8000', 'apis/v1/');
+    final url = Uri.http('127.0.0.1:8000', 'apis/v1/stocks/');
     // final url = Uri.parse('http://127.0.0.1:8000/apis/v1/');
     final response = await http.get(url);
     if (response.statusCode == 200) {
@@ -28,7 +28,7 @@ class StockProvider with ChangeNotifier {
   }
 
   void addStock(Stock stock) async {
-    final url = Uri.http('127.0.0.1:8000', 'apis/v1/');
+    final url = Uri.http('127.0.0.1:8000', 'apis/v1/stocks/');
     final response = await http.post(
       url,
       body: json.encode(stock),
@@ -40,6 +40,15 @@ class StockProvider with ChangeNotifier {
       notifyListeners();
     } else {
       print(response.statusCode);
+    }
+  }
+
+  void deleteStock(Stock stock) async {
+    final url = Uri.http('127.0.0.1:8000', 'apis/v1/stocks/${stock.id}/');
+    final response = await http.delete(url);
+    if (response.statusCode == 204) {
+      _stocks.remove(stock);
+      notifyListeners();
     }
   }
 }
